@@ -29,14 +29,14 @@ if consulta_escolhida == "Consulta 1: Salas com assento para cadeirante":
         FROM Sala S
         JOIN Cinema C ON S.REGISTRO_COMPLEXO = C.REGISTRO_COMPLEXO
         JOIN Endereco E ON C.ID_ENDERECO = E.ID_ENDERECO
-        WHERE S.SITUACAO_SALA = 'EM FUNCIONAMENTO' AND S.ASSENTOS_CADEIRANTES >= 1
+        WHERE S.SITUACAO_SALA = "EM FUNCIONAMENTO" AND S.ASSENTOS_CADEIRANTES >= 1
     """, conn)
     st.dataframe(df, use_container_width=True)
 
 elif consulta_escolhida == "Consulta 2: Cinemas em funcionamento":
     st.subheader("Consulta 2: Nome dos cinemas que estão funcionando")
     df = pd.read_sql("""
-        SELECT NOME_COMPLEXO FROM CINEMA WHERE SITUACAO_COMPLEXO = 'EM FUNCIONAMENTO'
+        SELECT NOME_COMPLEXO FROM CINEMA WHERE SITUACAO_COMPLEXO = "EM FUNCIONAMENTO"
     """, conn)
     st.dataframe(df, use_container_width=True)
 
@@ -46,7 +46,7 @@ elif consulta_escolhida == "Consulta 3: Cinemas ativos em BH":
         SELECT C.NOME_COMPLEXO
         FROM CINEMA C
         NATURAL JOIN ENDERECO E
-        WHERE C.SITUACAO_COMPLEXO = 'EM FUNCIONAMENTO' AND E.MUNICIPIO_COMPLEXO = 'BELO HORIZONTE'
+        WHERE C.SITUACAO_COMPLEXO = "EM FUNCIONAMENTO" AND E.MUNICIPIO_COMPLEXO = "BELO HORIZONTE"
     """, conn)
     st.dataframe(df, use_container_width=True)
 
@@ -56,7 +56,7 @@ elif consulta_escolhida == "Consulta 4: Cinemas CINEMARK ativos":
         SELECT C.NOME_COMPLEXO
         FROM CINEMA C
         NATURAL JOIN EXIBIDORA EX
-        WHERE C.SITUACAO_COMPLEXO = 'EM FUNCIONAMENTO' AND EX.NOME_GRUPO_EXIBIDOR = 'CINEMARK'
+        WHERE C.SITUACAO_COMPLEXO = "EM FUNCIONAMENTO" AND EX.NOME_GRUPO_EXIBIDOR = "CINEMARK"
     """, conn)
     st.dataframe(df, use_container_width=True)
 
@@ -66,8 +66,8 @@ elif consulta_escolhida == "Consulta 5: Cinemas independentes fechados na pandem
         SELECT C.NOME_COMPLEXO
         FROM CINEMA C
         NATURAL JOIN EXIBIDORA EX
-        WHERE C.SITUACAO_COMPLEXO = 'FECHADO'
-          AND EX.NOME_GRUPO_EXIBIDOR = 'NÃO PERTENCE A NENHUM GRUPO EXIBIDOR'
+        WHERE C.SITUACAO_COMPLEXO = "FECHADO"
+          AND EX.NOME_GRUPO_EXIBIDOR = "NÃO PERTENCE A NENHUM GRUPO EXIBIDOR"
           AND CAST(SUBSTR(C.DATA_SITUACAO_COMPLEXO, -4, 4) AS INTEGER) BETWEEN 2020 AND 2022
     """, conn)
     st.dataframe(df, use_container_width=True)
@@ -79,7 +79,7 @@ elif consulta_escolhida == "Consulta 6: Exibidores e endereços em BH":
         FROM EXIBIDORA EX
         NATURAL JOIN OPERACAO O
         NATURAL JOIN ENDERECO EN
-        WHERE EN.MUNICIPIO_COMPLEXO = 'BELO HORIZONTE'
+        WHERE EN.MUNICIPIO_COMPLEXO = "BELO HORIZONTE"
         ORDER BY EX.NOME_GRUPO_EXIBIDOR
     """, conn)
     st.dataframe(df, use_container_width=True)
@@ -91,7 +91,7 @@ elif consulta_escolhida == "Consulta 7: Quantidade de salas ativas em MG":
         FROM SALA S
         NATURAL JOIN CINEMA C
         NATURAL JOIN ENDERECO EN
-        WHERE S.SITUACAO_SALA = 'EM FUNCIONAMENTO' AND EN.UF_COMPLEXO = 'MG'
+        WHERE S.SITUACAO_SALA = "EM FUNCIONAMENTO" AND EN.UF_COMPLEXO = "MG"
     """, conn)
     st.dataframe(df, use_container_width=True)
 
@@ -102,7 +102,7 @@ elif consulta_escolhida == "Consulta 8: Salas novas após 2023 e sem exibidor":
         FROM SALA S
         NATURAL JOIN CINEMA C
         NATURAL JOIN EXIBIDORA EX
-        WHERE EX.NOME_GRUPO_EXIBIDOR = 'NÃO PERTENCE A NENHUM GRUPO EXIBIDOR'
+        WHERE EX.NOME_GRUPO_EXIBIDOR = "NÃO PERTENCE A NENHUM GRUPO EXIBIDOR"
           AND CAST(SUBSTR(S.DATA_INICIO_FUNCIONAMENTO_SALA, -4, 4) AS INTEGER) >= 2023
     """, conn)
     st.dataframe(df, use_container_width=True)
@@ -114,7 +114,7 @@ elif consulta_escolhida == "Consulta 9: Total de assentos CINEMARK":
         FROM SALA S
         NATURAL JOIN CINEMA C
         NATURAL JOIN EXIBIDORA EX
-        WHERE EX.NOME_GRUPO_EXIBIDOR = 'CINEMARK' AND S.SITUACAO_SALA = 'EM FUNCIONAMENTO'
+        WHERE EX.NOME_GRUPO_EXIBIDOR = "CINEMARK" AND S.SITUACAO_SALA = "EM FUNCIONAMENTO"
     """, conn)
     st.dataframe(df, use_container_width=True)
 
@@ -125,7 +125,7 @@ elif consulta_escolhida == "Consulta 10: Média assentos de cadeirantes em MG":
         FROM SALA S
         NATURAL JOIN CINEMA C
         NATURAL JOIN ENDERECO E
-        WHERE S.SITUACAO_SALA = 'EM FUNCIONAMENTO' AND E.UF_COMPLEXO = 'MG'
+        WHERE S.SITUACAO_SALA = "EM FUNCIONAMENTO" AND E.UF_COMPLEXO = "MG"
     """, conn)
     st.dataframe(df, use_container_width=True)
 
